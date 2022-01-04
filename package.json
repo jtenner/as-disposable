@@ -5,7 +5,7 @@
   "main": "assembly/index.ts",
   "scripts": {
     "test": "npm run compile:tests && node test",
-    "compile:tests": "asc assembly/test.ts --outFile build/test.wasm"
+    "compile:tests": "asc assembly/test.ts --outFile build/test.wasm --use ASC_RTRACE=1"
   },
   "repository": {
     "type": "git",
