@@ -1,7 +1,6 @@
-const loader = require("assemblyscript/lib/loader");
-const rtrace = require("assemblyscript/lib/rtrace");
-
-const fs = require("fs");
+import loader from "@assemblyscript/loader";
+import rtrace from "@assemblyscript/rtrace";
+import fs from "fs";
 
 const buffer = fs.readFileSync("./build/test.wasm");
 

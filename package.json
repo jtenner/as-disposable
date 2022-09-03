@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Object finalization for AssemblyScript made easy",
   "main": "assembly/index.ts",
+  "type": "module",
   "scripts": {
     "test": "npm run compile:tests && node test",
     "compile:tests": "asc assembly/test.ts --outFile build/test.wasm --use ASC_RTRACE=1"
@@ -23,6 +24,8 @@
   },
   "homepage": "https://github.com/jtenner/as-disposable#readme",
   "devDependencies": {
-    "assemblyscript": "^0.19.22"
+    "@assemblyscript/loader": "^0.21.3",
+    "@assemblyscript/rtrace": "^0.21.3",
+    "assemblyscript": "^0.21.3"
   }
 }
