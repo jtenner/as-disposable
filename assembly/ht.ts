@@ -14,7 +14,7 @@ const FINALIZATION_ENTRY_COUNT: i32 = isDefined(AS_MANAGED_FINALIZATION_ENTRY_CO
   : 10;
 
 /** Always points to the currently active table of references. */
-let entries: usize = heap.alloc(offsetof<HTEntry>() * FINALIZATION_ENTRY_COUNT);
+@lazy let entries: usize = heap.alloc(offsetof<HTEntry>() * FINALIZATION_ENTRY_COUNT);
 /** HashTable capacity. */
 let capacity: usize = <usize>FINALIZATION_ENTRY_COUNT;
 /** Current active item count. */
@@ -23,9 +23,7 @@ let length: usize = 0;
 const FNV_OFFSET: u64 = 14695981039346656037;
 const FNV_PRIME: u64 = 1099511628211;
 
-function getEntries(): usize {
-  return entries;
-}
+
 
 /**
  * Returns a 64-bit FNV-1a hash for a pointer key.
@@ -58,7 +56,7 @@ export function htGet(key: usize): HTEntry | null {
   for (let i: usize = 0; i < capacity; i++) {
     // loop over the entries until we find 0 or key
     let targetIndex = (index + i) % capacity;
-    let entry = changetype<HTEntry>(getEntries() + targetIndex * offsetof<HTEntry>());
+    let entry = changetype<HTEntry>(entries + targetIndex * offsetof<HTEntry>());
 
     // empty space means empty partition.
     if (entry.key == 0) break;
@@ -110,7 +108,7 @@ function htSetEntry(key: usize, held: u64, cb: u32): HTEntry {
   for (let i: usize = 0; i < capacity; i++) {
     // loop over the entries until we find 0 or key
     let targetIndex = (index + i) % capacity;
-    let entry = changetype<HTEntry>(getEntries() + targetIndex * offsetof<HTEntry>());
+    let entry = changetype<HTEntry>(entries + targetIndex * offsetof<HTEntry>());
 
     // we can use the space if the key is already set, the entry is free, or it's empty space
     if (entry.key == 0 || entry.key == key || entry.free) {
@@ -145,7 +143,7 @@ export function htDel(key: usize): HTEntry | null {
   // loop until we find the appropriate entry, or we hit 0
   for (let i: usize = 0; i < capacity; i++) {
     let targetIndex = (index + i) % capacity;
-    let entry = changetype<HTEntry>(getEntries() + targetIndex * offsetof<HTEntry>());
+    let entry = changetype<HTEntry>(entries + targetIndex * offsetof<HTEntry>());
 
     // if there is no pointer here, it's unused space.
     if (entry.key == 0) break;
