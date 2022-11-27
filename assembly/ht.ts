@@ -23,6 +23,10 @@ let length: usize = 0;
 const FNV_OFFSET: u64 = 14695981039346656037;
 const FNV_PRIME: u64 = 1099511628211;
 
+function getEntries(): usize {
+  return entries;
+}
+
 /**
  * Returns a 64-bit FNV-1a hash for a pointer key.
  * https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function
@@ -54,7 +58,7 @@ export function htGet(key: usize): HTEntry | null {
   for (let i: usize = 0; i < capacity; i++) {
     // loop over the entries until we find 0 or key
     let targetIndex = (index + i) % capacity;
-    let entry = changetype<HTEntry>(entries + targetIndex * offsetof<HTEntry>());
+    let entry = changetype<HTEntry>(getEntries() + targetIndex * offsetof<HTEntry>());
 
     // empty space means empty partition.
     if (entry.key == 0) break;
@@ -106,7 +110,7 @@ function htSetEntry(key: usize, held: u64, cb: u32): HTEntry {
   for (let i: usize = 0; i < capacity; i++) {
     // loop over the entries until we find 0 or key
     let targetIndex = (index + i) % capacity;
-    let entry = changetype<HTEntry>(entries + targetIndex * offsetof<HTEntry>());
+    let entry = changetype<HTEntry>(getEntries() + targetIndex * offsetof<HTEntry>());
 
     // we can use the space if the key is already set, the entry is free, or it's empty space
     if (entry.key == 0 || entry.key == key || entry.free) {
@@ -141,7 +145,7 @@ export function htDel(key: usize): HTEntry | null {
   // loop until we find the appropriate entry, or we hit 0
   for (let i: usize = 0; i < capacity; i++) {
     let targetIndex = (index + i) % capacity;
-    let entry = changetype<HTEntry>(entries + targetIndex * offsetof<HTEntry>());
+    let entry = changetype<HTEntry>(getEntries() + targetIndex * offsetof<HTEntry>());
 
     // if there is no pointer here, it's unused space.
     if (entry.key == 0) break;

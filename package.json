@@ -1,6 +1,6 @@
 {
   "name": "as-disposable",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Object finalization for AssemblyScript made easy",
   "main": "assembly/index.ts",
   "type": "module",
@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/jtenner/as-disposable#readme",
   "devDependencies": {
-    "@assemblyscript/loader": "^0.24.0",
-    "@assemblyscript/rtrace": "^0.24.0",
-    "assemblyscript": "^0.24.0"
+    "@assemblyscript/loader": "^0.24.1",
+    "@assemblyscript/rtrace": "^0.24.1",
+    "assemblyscript": "^0.24.1"
   }
 }
