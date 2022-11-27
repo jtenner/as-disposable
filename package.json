@@ -1,6 +1,6 @@
 {
   "name": "as-disposable",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Object finalization for AssemblyScript made easy",
   "main": "assembly/index.ts",
   "type": "module",
